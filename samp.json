@@ -1,0 +1,24 @@
+{
+	"gamemodes": [
+		"st"
+	],
+
+	"plugins": [
+		"crashdetect",
+		"FileManager",
+		"PawnPlus",
+		"SKY",
+		"env",
+		"mysql",
+		"pawnregex",
+		"profiler",
+		"sscanf",
+		"streamer",
+		"samp_bcrypt"
+	],
+
+	"rcon_password": "44",
+	"port": 7777,
+	"hostname": "Survive Time",
+	"maxplayers": 32
+}
