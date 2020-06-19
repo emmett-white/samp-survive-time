@@ -1,3 +1,3 @@
 # samp-survive-time
 
-In-Development Open Source SA-MP Project created by Emmett and Crownshot
+In-Development Open Source SA-MP Project created by Crownshot and Emmett
