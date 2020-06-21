@@ -39,7 +39,7 @@
 // samp-logger
 #define SAMP_LOGGER_COMPAT
 
-// // Libraries and respective links to their release pages
+// Libraries and respective links to their release pages
 
 #include <a_mysql>                                  // https://github.com/pBlueG/SA-MP-MySQL
 #include <env>
