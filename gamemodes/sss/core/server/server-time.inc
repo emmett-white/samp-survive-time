@@ -31,41 +31,46 @@
 
 ================================================================================================*/
 
+// Mini time 'system'
+// It's half an hour here = one hour
+// 1800000ms > 1800s > 0.5h
+
 #include <YSI_Coding\y_hooks>
 
-// Server informations
 
-#define SERVER_GAMEMODE	 		"Survive Time | v1.0"
-#define SERVER_MAPNAME	 		"San Andreas"
-#define SERVER_LANGUAGE	 		"English"
-#define SERVER_WEBURL	 		"www.survive-time.com"
+// Variables
 
-// Hooks
+static
+    hour;
+
+
+// Hook
 
 hook OnGameModeInit()
 {
-	SetGameModeText(SERVER_GAMEMODE);
-	SendRconCommand("mapname "SERVER_MAPNAME"");
-	SendRconCommand("language "SERVER_LANGUAGE"");
-	SendRconCommand("weburl "SERVER_WEBURL"");
+    static
+        real_hour;
 
-    DisableInteriorEnterExits();
-    UsePlayerPedAnims();
+    gettime(real_hour);
 
-    Profiler_Start();
+    hour = real_hour;
 
-    // Load vehicles
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt");
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt");
-
-	return 1;
+    return 1;
 }
 
-hook OnGameModeExit()
+
+// Timer
+
+task OnWorldTimeChange[1800000]()
 {
-    Profiler_Stop();
-    return 1;
+    ++hour;
+
+    if (hour == 24)
+    {
+        hour = 0;
+    }
+
+    SetWorldTime(hour);
+
+    ChatMsgAllF(-1, "%d", hour);
 }

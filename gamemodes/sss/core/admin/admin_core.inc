@@ -47,7 +47,7 @@ ACMD:[4 && !IsPlayerAdmin(playerid)]setadmin(playerid, const params[])
 
 stock SetPlayerAdminLevel(const targetid, const playerid, const level)
 {
-    if (!(0 < level < 5))
+    if (!(0 <= level <= 5))
         return ErrorMsg(playerid, "You can't go below 0 and above than 4!");
 
     if (level == char_Admin[targetid])

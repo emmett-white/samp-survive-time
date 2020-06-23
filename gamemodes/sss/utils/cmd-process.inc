@@ -31,41 +31,55 @@
 
 ================================================================================================*/
 
-#include <YSI_Coding\y_hooks>
+// By: Southclaws
 
-// Server informations
+#if defined CMD
+    #undef CMD
+#endif
 
-#define SERVER_GAMEMODE	 		"Survive Time | v1.0"
-#define SERVER_MAPNAME	 		"San Andreas"
-#define SERVER_LANGUAGE	 		"English"
-#define SERVER_WEBURL	 		"www.survive-time.com"
+#define CMD:%1(%2) forward cmd_%1(%2); public cmd_%1(%2)
+#define ACMD:[%0]%1(%2,%3) CMD:%1(%2,%3) if (Player_GetAdminLevel(%2) < %0) return 0; else
 
-// Hooks
-
-hook OnGameModeInit()
+public OnPlayerCommandText(playerid, cmdtext[])
 {
-	SetGameModeText(SERVER_GAMEMODE);
-	SendRconCommand("mapname "SERVER_MAPNAME"");
-	SendRconCommand("language "SERVER_LANGUAGE"");
-	SendRconCommand("weburl "SERVER_WEBURL"");
+	new
+		cmd[30],
+		params[127],
+		cmdfunction[64],
+		result = 1;
 
-    DisableInteriorEnterExits();
-    UsePlayerPedAnims();
+	sscanf(cmdtext, "s[30]s[127]", cmd, params);
 
-    Profiler_Start();
+	for (new i, j = strlen(cmd); i < j; i++)
+		cmd[i] = tolower(cmd[i]);
 
-    // Load vehicles
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt");
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt");
+	format(cmdfunction, 64, "cmd_%s", cmd[1]);
 
+	if(funcidx(cmdfunction) == -1) {
+		new
+			iLvl = Player_GetAdminLevel(playerid),
+			iLoop = 7;
+
+		while(iLoop > 0) {
+			format(cmdfunction, 64, "acmd_%s_%d", cmd[1], iLoop);
+
+			if(funcidx(cmdfunction) != -1)
+				break;
+
+			iLoop--;
+		}
+
+		if(iLoop == 0)
+			result = 0;
+
+		if(iLvl < iLoop)
+			result = 7;
+	}
+
+	if(result == 1) {
+		if(isnull(params))result = CallLocalFunction(cmdfunction, "is", playerid, "\1");
+		else result = CallLocalFunction(cmdfunction, "is", playerid, params);
+	}
+	
 	return 1;
-}
-
-hook OnGameModeExit()
-{
-    Profiler_Stop();
-    return 1;
 }

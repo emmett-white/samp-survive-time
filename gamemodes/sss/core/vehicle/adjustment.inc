@@ -101,5 +101,7 @@ hook OnPlayerExitVehicle(playerid, vehicleid)
 
     GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
     SetVehicleParamsEx(vehicleid, engine, lights, alarm, 0, bonnet, boot, objective);
+
+    SetVehicleNumberPlate(vehicleid, PlayerName(playerid));
     return 1;
 }

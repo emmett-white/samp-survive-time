@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -31,41 +32,55 @@
 
 ================================================================================================*/
 
-#include <YSI_Coding\y_hooks>
-
-// Server informations
-
-#define SERVER_GAMEMODE	 		"Survive Time | v1.0"
-#define SERVER_MAPNAME	 		"San Andreas"
-#define SERVER_LANGUAGE	 		"English"
-#define SERVER_WEBURL	 		"www.survive-time.com"
-
-// Hooks
-
-hook OnGameModeInit()
+hook OnPlayerConnect(playerid)
 {
-	SetGameModeText(SERVER_GAMEMODE);
-	SendRconCommand("mapname "SERVER_MAPNAME"");
-	SendRconCommand("language "SERVER_LANGUAGE"");
-	SendRconCommand("weburl "SERVER_WEBURL"");
+    player_LoginAttempts[playerid] = 0;
 
-    DisableInteriorEnterExits();
-    UsePlayerPedAnims();
+    va_SendClientMessageToAll(X11_SERVER, "[JOIN]: %s "WHITE"connected.", PlayerName(playerid));
 
-    Profiler_Start();
+    InterpolateCameraPos(playerid, 3.1435,-1955.6364,88.1194, 2106.8354,-1270.0221,100.7057, 1000 * 25, CAMERA_MOVE);
+    InterpolateCameraLookAt(playerid, 2325.7061,-1063.7642,55.4202, 2325.7061,-1063.7642,45.4202, 1000 * 25, CAMERA_MOVE);
 
-    // Load vehicles
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt");
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt");
+    task_await
+    (
+        MySQL_QueryS
+        (
+            str_format
+            (
+                "SELECT * FROM "TABLE_BANNED" WHERE "banned_field_player" = '%e' LIMIT 1",
+                PlayerName(playerid)
+            )
+        )
+    );
 
-	return 1;
+    if (cache_num_rows())
+    {
+        static
+            banned_AdminName[MAX_PLAYER_NAME],
+            banned_Reason[MESSAGE_MAX_LENGTH];
+
+        cache_get_value_name(0, ""banned_field_admin"", banned_AdminName);
+        cache_get_value_name(0, ""banned_field_reason"", banned_Reason);
+
+        GameTextForPlayer(playerid, !"~r~BANNED!", 10000, 3);
+
+        ChatMsgF(playerid, X11_SERVER, "%s, you're banned from this server.", PlayerName(playerid));
+        ChatMsgF(playerid, X11_SERVER, "Admin: "SERVER"%s", banned_AdminName);
+        ChatMsgF(playerid, X11_SERVER, "Reason: "SERVER"%s", banned_Reason);
+
+        defer KickTimer(playerid);
+
+        return 1;
+    }
+
+    OnPlayerAccountCheck(playerid);
+
+    return 1;
 }
 
-hook OnGameModeExit()
+
+hook OnPlayerDisconnect(playerid, reason)
 {
-    Profiler_Stop();
+    va_SendClientMessageToAll(X11_ORANGE_1, "[LEFT]: %s "WHITE"disconnected.", PlayerName(playerid));
     return 1;
 }

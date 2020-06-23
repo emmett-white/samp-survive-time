@@ -30,3 +30,21 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
+
+#include <YSI_Coding\y_hooks>
+
+
+// Hooks
+hook OnPlayerText(playerid, text[])
+{
+    // Admin chat
+    if (IsPlayerAdmin(playerid) || Player_GetAdminLevel(playerid) >= 1 && text[0] == '#')
+    {
+        SendAdminMessage(i, X11_INDIAN_RED_3, "(Admin) > "WHITE"%s : "GRAY"%s", PlayerName(i), text);
+        return 0;
+    }
+
+    ChatMsgAllF(X11_CHAT_GLOBAL, "(Global) > "WHITE"(%d) %s : "GRAY"%s", playerid, PlayerName(playerid), text);
+
+    return 0;
+}

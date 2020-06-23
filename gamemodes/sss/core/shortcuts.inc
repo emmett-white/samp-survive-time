@@ -32,10 +32,11 @@
 ================================================================================================*/
 // Colors
 
-#define SERVER 	    "{e6c545}"
-#define WHITE       "{FFFFFF}"
+#define SERVER 	            "{e6c545}"
+#define WHITE               "{FFFFFF}"
 
-#define X11_SERVER  0xe6c545FF
+#define X11_SERVER          0xe6c545FF
+#define X11_CHAT_GLOBAL     0x32a852FF
 
 // Dialog
 
@@ -51,6 +52,12 @@
 #define ChatMsgF(%0,%1,%2) \
     va_SendClientMessage(%0, %1, "> "WHITE""%2)
 
+#define ChatMsgAll(%0,%1) \
+    SendClientMessageToAll(%0,""%1)
+
+#define ChatMsgAllF(%0,%1) \
+    va_SendClientMessageToAll(%0,""%1)
+
 #define ErrorMsg(%0,%1) \
   	SendClientMessage(%0, X11_INDIAN_RED_3, ""%1)
 
@@ -58,7 +65,7 @@
   	SendClientMessage(%0, X11_GRAY, "USAGE: "%1)
 
 #define SendAdminMessage(%0,%1,%2) \
-    foreach(new %0: Player) if (Char_Admin_Level[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
+    foreach(new %0: Player) if (char_Admin[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
 
 #define ClearChat(%0,%1) \
   for(new i; i < %1; ++i) SendClientMessage(%0, -1, " ")

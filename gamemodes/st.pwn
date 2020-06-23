@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -57,6 +58,8 @@
 #include <YSI_Coding\y_inline>
 #include <YSI_Visual\y_dialog>
 
+// #include <filemanager>
+
 #include <sscanf2>                                  // https://github.com/maddinat0r/sscanf
 
 #include <PawnPlus>                                 // https://github.com/IllidanS4/PawnPlus
@@ -66,6 +69,7 @@
 
 #include <logger>                                   // https://github.com/Southclaws/samp-logger
 #include <formatex>                                 // https://github.com/Southclaws/formatex
+#include <progress2>                                // https://github.com/Southclaws/progress3
 
 #include <callbacks>                                // https://github.com/emmet-jones/New-SA-MP-callbacks
 #include <shooting-textdraw>                        // https://github.com/emmett-white/shooting-textdraw
@@ -78,33 +82,51 @@
 
 // Modules
 
-#include "sss/core/shortcuts.inc"
-#include "sss/utils/funcs.inc"
-#include "sss/utils/timers.inc"
-#include "sss/core/server/setup.inc"
+#include <shortcuts>
+#include <funcs>
+#include <timers>
+#include <setup>
+#include <server-time>
 
 // Command processor
-#include "sss/cmd-process.inc"
+#include <cmd-process>
 
 // Database
-#include "sss/database/database_initialise.inc"
+#include <database_initialise>
 
 // Player
-#include "sss/core/account/accounts.inc"
+#include <accounts>
+#include <chat>
+#include <hunger>
 
 // Admin
-#include "sss/core/admin/admin_core.inc"
+#include <admin_core>
 
 // UI
-#include "sss/core/user-interface/help-message.inc"
+#include <help-message>
 
 // Vehicles
-#include "sss/core/vehicle/adjustment.inc"
+#include <adjustment>
 
 main()
 {
     log("Gamemode successfully initialised.");
+
+    // if (!(dir_exists("scriptfiles")))
+    // {
+    //     err("ERROR: Directory \"scriptfiles\" not found. Creating directory.")
+    //     dir_create("scriptfiles");
+    // }
+
+    // if (!(dir_exists("scriptfilesss")))
+    // {
+    //     err("ERROR: Directory \"scriptfilesss\" not found. Creating directory.")
+    //     dir_create("scriptfilesss");
+    // }
 }
+
+
+// For testing
 
 CMD:veh(playerid, const params[])
 {
@@ -114,4 +136,9 @@ CMD:veh(playerid, const params[])
     CreateVehicle(411, x, y, z, 0.0, 0, 0, 0, 0);
 
     return 1;
+}
+
+public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
+{
+    return SetPlayerPos(playerid, fX, fY, fZ);
 }

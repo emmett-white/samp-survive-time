@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -31,41 +32,29 @@
 
 ================================================================================================*/
 
+
 #include <YSI_Coding\y_hooks>
 
-// Server informations
 
-#define SERVER_GAMEMODE	 		"Survive Time | v1.0"
-#define SERVER_MAPNAME	 		"San Andreas"
-#define SERVER_LANGUAGE	 		"English"
-#define SERVER_WEBURL	 		"www.survive-time.com"
+// Variables
+
+new
+    Float: HungerValue[MAX_PLAYERS],
+    PlayerBar: HungerBar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...};
+
+
+stock ShowHungerBar(const playerid)
+{
+    return ShowPlayerProgressBar(playerid, HungerBar[playerid]);
+}
 
 // Hooks
 
-hook OnGameModeInit()
+hook OnPlayerConnect(playerid)
 {
-	SetGameModeText(SERVER_GAMEMODE);
-	SendRconCommand("mapname "SERVER_MAPNAME"");
-	SendRconCommand("language "SERVER_LANGUAGE"");
-	SendRconCommand("weburl "SERVER_WEBURL"");
+    HungerValue[playerid] = 100.0;
 
-    DisableInteriorEnterExits();
-    UsePlayerPedAnims();
+    HungerBar[playerid] = CreatePlayerProgressBar(playerid, 628.000000, 445.000000, 8.000000, 68.699996, -16777046, 100.0000, 2);
 
-    Profiler_Start();
-
-    // Load vehicles
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt");
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt");
-
-	return 1;
-}
-
-hook OnGameModeExit()
-{
-    Profiler_Stop();
     return 1;
 }

@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -31,41 +32,28 @@
 
 ================================================================================================*/
 
-#include <YSI_Coding\y_hooks>
-
-// Server informations
-
-#define SERVER_GAMEMODE	 		"Survive Time | v1.0"
-#define SERVER_MAPNAME	 		"San Andreas"
-#define SERVER_LANGUAGE	 		"English"
-#define SERVER_WEBURL	 		"www.survive-time.com"
-
-// Hooks
-
-hook OnGameModeInit()
+stock Auth_PromptLogin(const playerid)
 {
-	SetGameModeText(SERVER_GAMEMODE);
-	SendRconCommand("mapname "SERVER_MAPNAME"");
-	SendRconCommand("language "SERVER_LANGUAGE"");
-	SendRconCommand("weburl "SERVER_WEBURL"");
+    inline dialog_login(id, dialogid, response, listitem, string: inputtext[])
+    {
+        #pragma unused id, dialogid, listitem
 
-    DisableInteriorEnterExits();
-    UsePlayerPedAnims();
+        if (!response)
+            return Kick(playerid);
 
-    Profiler_Start();
 
-    // Load vehicles
-    LoadStaticVehiclesFromFile("vehicles/ls_airport.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_inner.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_gen_outer.txt");
-    LoadStaticVehiclesFromFile("vehicles/ls_law.txt");
-    LoadStaticVehiclesFromFile("vehicles/red_county.txt");
+        bcrypt_verify(playerid, "OnPasswordVerify", inputtext, player_Password[playerid]);
+    }
 
-	return 1;
-}
+    Dialog_ShowCallbackF
+    (
+        playerid, using inline dialog_login, DIALOG_STYLE_PASSWORD,
+        D_TITLE,
+        ""SERVER">> %s, "WHITE"please enter your correct password..\n\n\
+        "SERVER">> "WHITE"You have max %d/"SERVER"%d "WHITE"attempts!",
+        D_CONFIRM, D_CANCEL, PlayerName(playerid), player_LoginAttempts[playerid],
+        MAX_LOGIN_ATTEMPTS
+    );
 
-hook OnGameModeExit()
-{
-    Profiler_Stop();
     return 1;
 }
