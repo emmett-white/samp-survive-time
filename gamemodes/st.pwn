@@ -58,8 +58,6 @@
 #include <YSI_Coding\y_inline>
 #include <YSI_Visual\y_dialog>
 
-// #include <filemanager>
-
 #include <sscanf2>                                  // https://github.com/maddinat0r/sscanf
 
 #include <PawnPlus>                                 // https://github.com/IllidanS4/PawnPlus
@@ -111,18 +109,6 @@
 main()
 {
     log("Gamemode successfully initialised.");
-
-    // if (!(dir_exists("scriptfiles")))
-    // {
-    //     err("ERROR: Directory \"scriptfiles\" not found. Creating directory.")
-    //     dir_create("scriptfiles");
-    // }
-
-    // if (!(dir_exists("scriptfilesss")))
-    // {
-    //     err("ERROR: Directory \"scriptfilesss\" not found. Creating directory.")
-    //     dir_create("scriptfilesss");
-    // }
 }
 
 
