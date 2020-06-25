@@ -44,4 +44,16 @@ new
 
     Iterator: Iter_Dealers<MAX_DEALERS>,
 
-    loadedDealers;
+    loadedDealers,
+
+    // UI
+    PlayerText: dealer_TextDraws[MAX_PLAYERS][15];
+
+
+enum dealerOffers
+{
+    E_DEALER_OFFER_COLT,
+    E_DEALER_OFFER_KNIFE,
+    E_DEALER_OFFER_AK47,
+    E_DEALER_OFFER_DRUG
+}

@@ -36,52 +36,39 @@
 
 hook OnGameModeInit()
 {
-    task_await
-    (
-        MySQL_QueryS
-        (
-            str_format
-            (
-                "SELECT * FROM "TABLE_DEALERS""
-            )
-        )
-    );
+    mysql_tquery(MySQL_GetHandle(), "SELECT * FROM "TABLE_DEALERS"", "OnDealersLoaded", "");
 
-    if (cache_num_rows())
+    return 1;
+}
+
+
+// Dealer offers
+hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
+{
+    if (playertextid == dealer_TextDraws[playerid][2])
     {
-        for (new i; i < cache_num_rows(); ++i)
-        {
-            new
-                id = Iter_Alloc(Iter_Dealers);
-
-            cache_get_value_name_int(i, "dealer_id", dealer_UniqueID[id]);
-
-            cache_get_value_name_float(i, "dealer_x", dealer_PosX[id]);
-            cache_get_value_name_float(i, "dealer_y", dealer_PosY[id]);
-            cache_get_value_name_float(i, "dealer_z", dealer_PosZ[id]);
-            cache_get_value_name_float(i, "dealer_a", dealer_PosA[id]);
-
-            dealer_Actor[id] = CreateActor(29, dealer_PosX[id], dealer_PosY[id], dealer_PosZ[id], dealer_PosA[id]);
-
-            new String: ActorLabelString = str_format
-            (
-                "Actor - "WHITE"%d\n"SERVER"Type /dealer",
-                dealer_UniqueID[id]
-            );
-
-            dealer_Label[id] = CreateFormattedLabel(
-                ActorLabelString, X11_SERVER,
-                dealer_PosX[id], dealer_PosY[id], dealer_PosZ[id],
-                10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID,
-                0, -1, -1, -1, 10.0, -1, 0
-            );
-
-            ++loadedDealers;
-        }
-
-        log("Dealers > loaded ", _i("dealers: ", loadedDealers));
+        Dealer_AcceptOffers(playerid, E_DEALER_OFFER_COLT);
     }
 
+    if (playertextid == dealer_TextDraws[playerid][3])
+    {
+        Dealer_AcceptOffers(playerid, E_DEALER_OFFER_KNIFE);
+    }
+
+    if (playertextid == dealer_TextDraws[playerid][4])
+    {
+        Dealer_AcceptOffers(playerid, E_DEALER_OFFER_AK47);
+    }
+
+    if (playertextid == dealer_TextDraws[playerid][5])
+    {
+        Dealer_AcceptOffers(playerid, E_DEALER_OFFER_DRUG);
+    }
+
+    if (playertextid == dealer_TextDraws[playerid][14])
+    {
+        UI_CreateDealerOffers(playerid, false);
+    }
 
     return 1;
 }

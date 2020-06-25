@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -30,63 +31,3 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
-
-ACMD:[4]createdealer(playerid, const params[])
-{
-    new
-        Float: x,
-        Float: y,
-        Float: z,
-        Float: a;
-
-    GetPlayerPos(playerid, x, y, z);
-    GetPlayerFacingAngle(playerid, a);
-
-    Dealer_Create(playerid, x, y, z, a);
-
-    return 1;
-}
-
-
-ACMD:[1]gotodealer(playerid, const params[])
-{
-    static
-        dID;
-
-    if (sscanf(params, "i", dID))
-        return HelpMsg(playerid, "/gotodealer [dealer id]");
-
-
-    task_await
-    (
-        MySQL_QueryS
-        (
-            str_format
-            (
-                "SELECT * FROM "TABLE_DEALERS" WHERE "dealer_field_id" = '%d'", dID
-            )
-        )
-    );
-
-    if (!cache_num_rows())
-    {
-        ErrorMsg(playerid, "Invalid dealer ID!");
-        return 1;
-    }
-
-    SetPlayerPos(playerid, (dealer_PosX[(dID - 1)] + 4.0), dealer_PosY[(dID - 1)], dealer_PosZ[(dID - 1)]);
-
-    return 1;
-}
-
-
-// Player commands
-CMD:dealer(playerid, const params[])
-{
-    if (!Dealer_Nearby(playerid))
-        return ErrorMsg(playerid, "You need to be close to the dealer!");
-
-    UI_CreateDealerOffers(playerid, true);
-
-    return 1;
-}

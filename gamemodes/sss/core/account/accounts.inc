@@ -54,6 +54,7 @@
 #define char_field_score                    "char_score"
 #define char_field_skin                     "char_skin"
 #define char_field_admin                    "char_admin"
+#define char_field_drugs                    "char_drugs"
 
 #define banned_field_player                 "banned_pname"
 #define banned_field_admin                  "banned_aname"

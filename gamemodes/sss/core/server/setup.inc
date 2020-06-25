@@ -52,6 +52,8 @@ hook OnGameModeInit()
     DisableInteriorEnterExits();
     UsePlayerPedAnims();
 
+    SetWeather(5);
+
     Profiler_Start();
 
     // Load vehicles

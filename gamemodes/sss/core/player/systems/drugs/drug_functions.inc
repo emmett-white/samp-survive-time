@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -31,62 +32,53 @@
 
 ================================================================================================*/
 
-ACMD:[4]createdealer(playerid, const params[])
-{
-    new
-        Float: x,
-        Float: y,
-        Float: z,
-        Float: a;
-
-    GetPlayerPos(playerid, x, y, z);
-    GetPlayerFacingAngle(playerid, a);
-
-    Dealer_Create(playerid, x, y, z, a);
-
-    return 1;
-}
-
-
-ACMD:[1]gotodealer(playerid, const params[])
+stock SetPlayerDrugsLevel(const playerid)
 {
     static
-        dID;
-
-    if (sscanf(params, "i", dID))
-        return HelpMsg(playerid, "/gotodealer [dealer id]");
+        drugsLevel;
 
 
-    task_await
-    (
-        MySQL_QueryS
-        (
-            str_format
-            (
-                "SELECT * FROM "TABLE_DEALERS" WHERE "dealer_field_id" = '%d'", dID
-            )
-        )
-    );
-
-    if (!cache_num_rows())
+    if (char_Drugs[playerid] <= 20)
     {
-        ErrorMsg(playerid, "Invalid dealer ID!");
-        return 1;
+        usingDrugs[playerid] = true;
+        char_Drugs[playerid] -= 20;
+
+        drugsLevel = 2009;
+        bar_delay = 1000;
+
+        SetPlayerWeather(playerid, drugsLevel);
+        UI_ShowPlayerBar(playerid);
+
+        defer DrugEffectFinished(playerid);
     }
 
-    SetPlayerPos(playerid, (dealer_PosX[(dID - 1)] + 4.0), dealer_PosY[(dID - 1)], dealer_PosZ[(dID - 1)]);
+    else if (char_Drugs[playerid] >= 40)
+    {
+        usingDrugs[playerid] = true;
+        char_Drugs[playerid] -= 20;
 
-    return 1;
-}
+        drugsLevel = 250;
+        bar_delay = 1000;
 
+        SetPlayerWeather(playerid, drugsLevel);
+        UI_ShowPlayerBar(playerid);
 
-// Player commands
-CMD:dealer(playerid, const params[])
-{
-    if (!Dealer_Nearby(playerid))
-        return ErrorMsg(playerid, "You need to be close to the dealer!");
+        defer DrugEffectFinished(playerid);
+    }
 
-    UI_CreateDealerOffers(playerid, true);
+    else if (char_Drugs[playerid] >= 60)
+    {
+        usingDrugs[playerid] = true;
+        char_Drugs[playerid] -= 20;
+
+        drugsLevel = 100;
+        bar_delay = 1000;
+
+        SetPlayerWeather(playerid, drugsLevel);
+        UI_ShowPlayerBar(playerid);
+
+        defer DrugEffectFinished(playerid);
+    }
 
     return 1;
 }

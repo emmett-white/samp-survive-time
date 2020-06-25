@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -31,62 +32,56 @@
 
 ================================================================================================*/
 
-ACMD:[4]createdealer(playerid, const params[])
+#include <YSI_Coding\y_hooks>
+
+// Variables
+
+new
+    PlayerBar: UI_Bar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...};
+
+
+// Hooks
+
+hook OnPlayerConnect(playerid)
 {
-    new
-        Float: x,
-        Float: y,
-        Float: z,
-        Float: a;
-
-    GetPlayerPos(playerid, x, y, z);
-    GetPlayerFacingAngle(playerid, a);
-
-    Dealer_Create(playerid, x, y, z, a);
+    UI_Bar[playerid] = CreatePlayerProgressBar(playerid, 287.000000, 304.000000, 69.000000, 3.200000, -488447233, 100.0000, 0);
 
     return 1;
 }
 
 
-ACMD:[1]gotodealer(playerid, const params[])
+// Functions
+
+stock UI_ShowPlayerBar(const playerid)
 {
-    static
-        dID;
+    ShowPlayerProgressBar(playerid, UI_Bar[playerid]);
 
-    if (sscanf(params, "i", dID))
-        return HelpMsg(playerid, "/gotodealer [dealer id]");
+    defer UI_UpdatePlayerBar(playerid);
+
+    return 1;
+}
 
 
-    task_await
-    (
-        MySQL_QueryS
-        (
-            str_format
-            (
-                "SELECT * FROM "TABLE_DEALERS" WHERE "dealer_field_id" = '%d'", dID
-            )
-        )
-    );
+// Timers
 
-    if (!cache_num_rows())
+timer UI_UpdatePlayerBar[bar_delay](playerid)
+{
+    new
+        Float: value = GetPlayerProgressBarValue(playerid, UI_Bar[playerid]);
+
+
+    if (value == 100.0)
     {
-        ErrorMsg(playerid, "Invalid dealer ID!");
+        SetPlayerProgressBarValue(playerid, UI_Bar[playerid], 0.0);
+        HidePlayerProgressBar(playerid, UI_Bar[playerid]);
         return 1;
     }
 
-    SetPlayerPos(playerid, (dealer_PosX[(dID - 1)] + 4.0), dealer_PosY[(dID - 1)], dealer_PosZ[(dID - 1)]);
 
-    return 1;
-}
+    value += 5.0;
 
-
-// Player commands
-CMD:dealer(playerid, const params[])
-{
-    if (!Dealer_Nearby(playerid))
-        return ErrorMsg(playerid, "You need to be close to the dealer!");
-
-    UI_CreateDealerOffers(playerid, true);
+    SetPlayerProgressBarValue(playerid, UI_Bar[playerid], (value + 5.0));
+    defer UI_UpdatePlayerBar(playerid);
 
     return 1;
 }

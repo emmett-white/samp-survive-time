@@ -45,7 +45,10 @@ new
     char_Skin[MAX_PLAYERS],
     char_Score[MAX_PLAYERS],
     char_Money[MAX_PLAYERS],
-    char_Admin[MAX_PLAYERS];
+    char_Admin[MAX_PLAYERS],
+    char_Drugs[MAX_PLAYERS],
+
+    bar_delay;
 
 
 // Spawn Positions

@@ -31,10 +31,24 @@
 
 ================================================================================================*/
 
+// Table
+
 #define TABLE_DEALERS           "dealers"
+
+// Fields
+
+#define dealer_field_id         "dealer_id"
+#define dealer_field_x          "x"
+#define dealer_field_y          "y"
+#define dealer_field_z          "z"
+#define dealer_field_a          "a"
+
+
 #define MAX_DEALERS             (20)
 
 #include <dealers_vars>
 #include <dealers_hooks>
 #include <dealers_callbacks>
 #include <dealers_commands>
+#include <dealers_functions>
+#include <dealers_ui>
