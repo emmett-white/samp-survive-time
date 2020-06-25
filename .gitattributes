@@ -1,3 +1,4 @@
 * text=auto
 *.pwn linguist-language=Pawn
 *.inc linguist-language=SourcePawn
+*.json linguist-language=JavaScript
