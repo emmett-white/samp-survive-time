@@ -96,6 +96,7 @@
 #include <accounts>
 #include <chat>
 #include <hunger>
+#include <drugs>
 
 // Admin
 #include <admin_core>
@@ -105,6 +106,15 @@
 
 // Vehicles
 #include <adjustment>
+
+// Jobs
+#include <jobs>
+
+// Systems
+#include <dealers>
+
+// World
+#include <maps>
 
 main()
 {
@@ -120,6 +130,18 @@ CMD:veh(playerid, const params[])
     GetPlayerPos(playerid, x, y, z);
 
     CreateVehicle(411, x, y, z, 0.0, 0, 0, 0, 0);
+
+    return 1;
+}
+
+CMD:xyz(playerid, const params[])
+{
+    new Float: x, Float: y, Float: z;
+
+    if (sscanf(params, "fff", x, y, z))
+        return 0;
+
+    SetPlayerPos(playerid, x, y, z);
 
     return 1;
 }
