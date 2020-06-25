@@ -1,4 +1,4 @@
 * text=auto
-*.pwn linguist-language=SourcePawn
+*.pwn linguist-language=Pawn
 *.inc linguist-language=SourcePawn
 *.pwn text
