@@ -136,7 +136,10 @@ CMD:veh(playerid, const params[])
 
 CMD:xyz(playerid, const params[])
 {
-    new Float: x, Float: y, Float: z;
+    new
+        Float: x,
+        Float: y,
+        Float: z;
 
     if (sscanf(params, "fff", x, y, z))
         return 0;
