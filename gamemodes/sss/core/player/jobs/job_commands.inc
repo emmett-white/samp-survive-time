@@ -30,73 +30,59 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
-// Colors
 
-#define SERVER 	            "{e6c545}"
-#define WHITE               "{FFFFFF}"
-
-#define X11_SERVER          0xe6c545FF
-#define X11_CHAT_GLOBAL     0x32a852FF
-
-// Dialog
-
-#define D_TITLE     ""SERVER"SURVIVE - "WHITE"TIME"
-#define D_CONFIRM 	""SERVER"Submit"
-#define D_CANCEL 	"Cancel"
-
-// Messages
-
-#define ChatMsg(%0,%1,%2) \
-    SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgF(%0,%1,%2) \
-    va_SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgAll(%0,%1) \
-    SendClientMessageToAll(%0,""%1)
-
-#define ChatMsgAllF(%0,%1) \
-    va_SendClientMessageToAll(%0,""%1)
-
-#define ErrorMsg(%0,%1) \
-  	SendClientMessage(%0, X11_INDIAN_RED_3, ""%1)
-
-#define HelpMsg(%0,%1) \
-  	SendClientMessage(%0, X11_GRAY, "USAGE: "%1)
-
-#define SendAdminMessage(%0,%1,%2) \
-    foreach(new %0: Player) if (char_Admin[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
-
-#define ClearChat(%0,%1) \
-  for(new i; i < %1; ++i) SendClientMessage(%0, -1, " ")
-
-// Keys
-
-#define PRESSED(%0) \
-    (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
-
-#define HOLDING(%0) \
-    ((newkeys & (%0)) == (%0))
-
-#define RELEASED(%0) \
-    (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+CMD:takejob(playerid, const params[])
+{
+    if (takenJob[playerid])
+        return ErrorMsg(playerid, "You already have a job.");
 
 
-// Limits
+    // Hospital
+    if (IsPlayerInRangeOfPoint(playerid, 3.0, -28.2635, 152.7430, 999.0621))
+    {
+        takenJob[playerid] = true;
+        paramedicJob[playerid] = true;
 
-#undef MAX_COMMANDS
-#define MAX_COMMANDS            (128)
+        ChatMsg(playerid, X11_SERVER, "You are now working as an paramedic.");
+        ChatMsg(playerid, X11_SERVER, "Now you can use your equipment (/equipment).");
+    }
 
-#undef MAX_ACTORS
-#define MAX_ACTORS              (24)
+    return 1;
+}
 
-#define MESSAGE_MAX_LENGTH      124
-#define ANNOUNCE_MAX_LENGTH     124
 
-#define MAX_LOGIN_ATTEMPTS      3
+CMD:equipment(playerid, const params[])
+{
+    if (!takenJob[playerid])
+        return ErrorMsg(playerid, "You don't have any job!");
 
-// Pickups
 
-#define ENTER_EXIT_PICKUP       (19130)
-#define JOB_PICKUP              (1274)
-#define EQUIPMENT_PICKUP        (1275)
+    if (takenEquipment[playerid])
+        return ChatMsg(playerid, X11_SERVER, "You've already taken the equipment.");
+
+
+    if (IsPlayerInRangeOfPoint(playerid, 3.0, -28.3253, 151.2038, 999.0620))
+    {
+        paramedicEquipment[playerid] = (paramedicEquipment[playerid]) ? (false) : (true);
+        SetPlayerSkin(playerid, (paramedicEquipment[playerid]) ? (275) : char_Skin[playerid]);
+    }
+
+    return 1;
+}
+
+
+CMD:jobhelp(playerid, const params[])
+{
+    if (!takenJob[playerid])
+        return ErrorMsg(playerid, "You don't have any job!");
+
+    if (paramedicJob[playerid])
+    {
+        ChatMsg(playerid, X11_SERVER, "/equipment, /job");
+        return 1;
+    }
+
+    return 1;
+}
+
+

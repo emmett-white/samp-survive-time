@@ -11,6 +11,7 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
+    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -30,73 +31,92 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
-// Colors
 
-#define SERVER 	            "{e6c545}"
-#define WHITE               "{FFFFFF}"
+hook OnPlayerConnect(playerid)
+{
+    // Default value of hunger is 100.0
+    HungerValue[playerid] = 100.0;
 
-#define X11_SERVER          0xe6c545FF
-#define X11_CHAT_GLOBAL     0x32a852FF
+    HungerBar[playerid] = CreatePlayerProgressBar(playerid, 628.000000, 445.000000, 8.000000, 68.699996, -16777046, 100.0, 2);
+    SetPlayerProgressBarValue(playerid, HungerBar[playerid], HungerValue[playerid]);
 
-// Dialog
-
-#define D_TITLE     ""SERVER"SURVIVE - "WHITE"TIME"
-#define D_CONFIRM 	""SERVER"Submit"
-#define D_CANCEL 	"Cancel"
-
-// Messages
-
-#define ChatMsg(%0,%1,%2) \
-    SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgF(%0,%1,%2) \
-    va_SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgAll(%0,%1) \
-    SendClientMessageToAll(%0,""%1)
-
-#define ChatMsgAllF(%0,%1) \
-    va_SendClientMessageToAll(%0,""%1)
-
-#define ErrorMsg(%0,%1) \
-  	SendClientMessage(%0, X11_INDIAN_RED_3, ""%1)
-
-#define HelpMsg(%0,%1) \
-  	SendClientMessage(%0, X11_GRAY, "USAGE: "%1)
-
-#define SendAdminMessage(%0,%1,%2) \
-    foreach(new %0: Player) if (char_Admin[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
-
-#define ClearChat(%0,%1) \
-  for(new i; i < %1; ++i) SendClientMessage(%0, -1, " ")
-
-// Keys
-
-#define PRESSED(%0) \
-    (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
-
-#define HOLDING(%0) \
-    ((newkeys & (%0)) == (%0))
-
-#define RELEASED(%0) \
-    (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+    return 1;
+}
 
 
-// Limits
+hook OnPlayerUpdate(playerid)
+{
+	new
+		animIndex = GetPlayerAnimationIndex(playerid),
+		Float: food = GetPlayerProgressBarValue(playerid, HungerBar[playerid]),
+	
+		k,
+		ud,
+		lr;
 
-#undef MAX_COMMANDS
-#define MAX_COMMANDS            (128)
+	GetPlayerKeys(playerid, k, ud, lr);
 
-#undef MAX_ACTORS
-#define MAX_ACTORS              (24)
+	// No animation applied
+	if (animIndex == 0)
+	{
+		food -= IDLE_FOOD_RATE;
+		SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+	}
 
-#define MESSAGE_MAX_LENGTH      124
-#define ANNOUNCE_MAX_LENGTH     124
+	// Sitting animation
+	else if (animIndex == 43)
+	{
+		food -= (IDLE_FOOD_RATE * 0.2);
+		SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+	}
 
-#define MAX_LOGIN_ATTEMPTS      3
+	// Crouch animation
+	else if (animIndex == 1159)
+	{
+		food -= (IDLE_FOOD_RATE * 1.1);
+		SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+	}
 
-// Pickups
+	// Jump animation
+	else if (animIndex == 1195)
+	{
+		food -= (IDLE_FOOD_RATE * 3.2);
+		SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+	}
 
-#define ENTER_EXIT_PICKUP       (19130)
-#define JOB_PICKUP              (1274)
-#define EQUIPMENT_PICKUP        (1275)
+	// Run animation
+	else if(animIndex == 1231)
+	{
+		// Walk animation
+		if(k & KEY_WALK)
+		{
+			food -= IDLE_FOOD_RATE * 1.2;
+			SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+		}
+
+		// Sprint animation
+		else if(k & KEY_SPRINT)
+		{
+			food -= IDLE_FOOD_RATE * 2.2;
+			SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+		}
+
+		// Jump animation
+		else if(k & KEY_JUMP)
+		{
+			food -= IDLE_FOOD_RATE * 3.2;
+			SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+		}
+
+		else
+		{
+			food -= IDLE_FOOD_RATE * 2.0;
+			SetPlayerProgressBarValue(playerid, HungerBar[playerid], food);
+		}
+	}
+
+	if(food > 100.0)
+		food = 100.0;
+
+	return 1;
+}

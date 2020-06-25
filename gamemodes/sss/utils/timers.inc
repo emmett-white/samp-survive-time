@@ -36,7 +36,7 @@ timer KickTimer[1000](playerid)
 	return Kick(playerid);
 }
 
-// ptask AutoSavePlayer[1000](playerid)
-// {
-//     return SavePlayer(playerid);
-// }
+ptask AutoSavePlayer[1000](playerid)
+{
+    return OnAccountSaved(playerid);
+}

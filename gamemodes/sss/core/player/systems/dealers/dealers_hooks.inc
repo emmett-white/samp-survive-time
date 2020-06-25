@@ -30,73 +30,58 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
-// Colors
 
-#define SERVER 	            "{e6c545}"
-#define WHITE               "{FFFFFF}"
-
-#define X11_SERVER          0xe6c545FF
-#define X11_CHAT_GLOBAL     0x32a852FF
-
-// Dialog
-
-#define D_TITLE     ""SERVER"SURVIVE - "WHITE"TIME"
-#define D_CONFIRM 	""SERVER"Submit"
-#define D_CANCEL 	"Cancel"
-
-// Messages
-
-#define ChatMsg(%0,%1,%2) \
-    SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgF(%0,%1,%2) \
-    va_SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgAll(%0,%1) \
-    SendClientMessageToAll(%0,""%1)
-
-#define ChatMsgAllF(%0,%1) \
-    va_SendClientMessageToAll(%0,""%1)
-
-#define ErrorMsg(%0,%1) \
-  	SendClientMessage(%0, X11_INDIAN_RED_3, ""%1)
-
-#define HelpMsg(%0,%1) \
-  	SendClientMessage(%0, X11_GRAY, "USAGE: "%1)
-
-#define SendAdminMessage(%0,%1,%2) \
-    foreach(new %0: Player) if (char_Admin[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
-
-#define ClearChat(%0,%1) \
-  for(new i; i < %1; ++i) SendClientMessage(%0, -1, " ")
-
-// Keys
-
-#define PRESSED(%0) \
-    (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
-
-#define HOLDING(%0) \
-    ((newkeys & (%0)) == (%0))
-
-#define RELEASED(%0) \
-    (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+#include <YSI_Coding\y_hooks>
 
 
-// Limits
+hook OnGameModeInit()
+{
+    task_await
+    (
+        MySQL_QueryS
+        (
+            str_format
+            (
+                "SELECT * FROM "TABLE_DEALERS""
+            )
+        )
+    );
 
-#undef MAX_COMMANDS
-#define MAX_COMMANDS            (128)
+    if (cache_num_rows())
+    {
+        for (new i; i < cache_num_rows(); ++i)
+        {
+            new
+                id = Iter_Alloc(Iter_Dealers);
 
-#undef MAX_ACTORS
-#define MAX_ACTORS              (24)
+            cache_get_value_name_int(i, "dealer_id", dealer_UniqueID[id]);
 
-#define MESSAGE_MAX_LENGTH      124
-#define ANNOUNCE_MAX_LENGTH     124
+            cache_get_value_name_float(i, "dealer_x", dealer_PosX[id]);
+            cache_get_value_name_float(i, "dealer_y", dealer_PosY[id]);
+            cache_get_value_name_float(i, "dealer_z", dealer_PosZ[id]);
+            cache_get_value_name_float(i, "dealer_a", dealer_PosA[id]);
 
-#define MAX_LOGIN_ATTEMPTS      3
+            dealer_Actor[id] = CreateActor(29, dealer_PosX[id], dealer_PosY[id], dealer_PosZ[id], dealer_PosA[id]);
 
-// Pickups
+            new String: ActorLabelString = str_format
+            (
+                "Actor - "WHITE"%d\n"SERVER"Type /dealer",
+                dealer_UniqueID[id]
+            );
 
-#define ENTER_EXIT_PICKUP       (19130)
-#define JOB_PICKUP              (1274)
-#define EQUIPMENT_PICKUP        (1275)
+            dealer_Label[id] = CreateFormattedLabel(
+                ActorLabelString, X11_SERVER,
+                dealer_PosX[id], dealer_PosY[id], dealer_PosZ[id],
+                10.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID,
+                0, -1, -1, -1, 10.0, -1, 0
+            );
+
+            ++loadedDealers;
+        }
+
+        log("Dealers > loaded ", _i("dealers: ", loadedDealers));
+    }
+
+
+    return 1;
+}

@@ -169,3 +169,26 @@ public OnPasswordVerify(const playerid, bool: success)
 
     return 1;
 }
+
+
+forward OnAccountSaved(const playerid);
+public OnAccountSaved(const playerid)
+{
+    new String: Query = str_format
+    (
+        "UPDATE \
+            "TABLE_CHARACTER" \
+        SET \
+            "char_field_gender" = '%d', "char_field_skin" = '%d', \
+            "char_field_score" = '%d', "char_field_money" = '%d', \
+            "char_field_admin" = '%d' \
+        WHERE \
+            "char_field_id" = '%d'",
+        char_Gender[playerid], char_Skin[playerid],
+        char_Score[playerid], char_Money[playerid],
+        char_Admin[playerid], char_UniqueID[playerid]
+    );
+    mysql_tquery_s(MySQL_GetHandle(), Query);
+
+    return 1;
+}

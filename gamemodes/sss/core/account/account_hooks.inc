@@ -81,6 +81,8 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerDisconnect(playerid, reason)
 {
+    OnAccountSaved(playerid);
+    
     va_SendClientMessageToAll(X11_ORANGE_1, "[LEFT]: %s "WHITE"disconnected.", PlayerName(playerid));
     return 1;
 }

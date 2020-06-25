@@ -30,73 +30,57 @@
     Copyright (©) 2020 | 16th June
 
 ================================================================================================*/
-// Colors
 
-#define SERVER 	            "{e6c545}"
-#define WHITE               "{FFFFFF}"
-
-#define X11_SERVER          0xe6c545FF
-#define X11_CHAT_GLOBAL     0x32a852FF
-
-// Dialog
-
-#define D_TITLE     ""SERVER"SURVIVE - "WHITE"TIME"
-#define D_CONFIRM 	""SERVER"Submit"
-#define D_CANCEL 	"Cancel"
-
-// Messages
-
-#define ChatMsg(%0,%1,%2) \
-    SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgF(%0,%1,%2) \
-    va_SendClientMessage(%0, %1, "> "WHITE""%2)
-
-#define ChatMsgAll(%0,%1) \
-    SendClientMessageToAll(%0,""%1)
-
-#define ChatMsgAllF(%0,%1) \
-    va_SendClientMessageToAll(%0,""%1)
-
-#define ErrorMsg(%0,%1) \
-  	SendClientMessage(%0, X11_INDIAN_RED_3, ""%1)
-
-#define HelpMsg(%0,%1) \
-  	SendClientMessage(%0, X11_GRAY, "USAGE: "%1)
-
-#define SendAdminMessage(%0,%1,%2) \
-    foreach(new %0: Player) if (char_Admin[%0] >= 1) va_SendClientMessage(%0, %1, ""%2)    
-
-#define ClearChat(%0,%1) \
-  for(new i; i < %1; ++i) SendClientMessage(%0, -1, " ")
-
-// Keys
-
-#define PRESSED(%0) \
-    (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
-
-#define HOLDING(%0) \
-    ((newkeys & (%0)) == (%0))
-
-#define RELEASED(%0) \
-    (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+#include <YSI_Coding\y_hooks>
 
 
-// Limits
+// Hooks
+hook OnGameModeInit()
+{
+	AddStaticVehicleEx(416, 1178.0532000, -1338.8334000, 14.0885000, -90.0000000, -1, -1, 0); // Ambulance
+	AddStaticVehicleEx(416, 1178.0532000, -1308.4641000, 14.0885000, -90.0000000, -1, -1, 0); // Ambulance
+	AddStaticVehicleEx(416, 1183.5928000, -1331.3372000, 14.0885000, 0.0000000, -1, -1, 0); // Ambulance
+	AddStaticVehicleEx(416, 1183.5928000, -1315.3890000, 14.0885000, 180.0000000, -1, -1, 0); // Ambulance
+	AddStaticVehicleEx(416, 1188.1200000, -1344.7246000, 14.0885000, 0.0000000, -1, -1, 0); // Ambulance
+	AddStaticVehicleEx(416, 1188.1200000, -1302.0371000, 14.0885000, 180.0000000, -1, -1, 0); // Ambulance
 
-#undef MAX_COMMANDS
-#define MAX_COMMANDS            (128)
+	// Enter & Exit pickups
+	paramedicPickup[0] = CreatePickup(ENTER_EXIT_PICKUP, 1, 1172.7817, -1323.2935, 15.4007);
+	paramedicPickup[1] = CreatePickup(ENTER_EXIT_PICKUP, 1, -62.8670, 153.6974, 999.0569);
+	paramedicPickup[2] = CreatePickup(JOB_PICKUP, 1, -28.2635,152.7430,999.0621);
+	paramedicPickup[3] = CreatePickup(EQUIPMENT_PICKUP, 1, -28.3253,151.2038,999.0620);
 
-#undef MAX_ACTORS
-#define MAX_ACTORS              (24)
+	return 1;
+}
 
-#define MESSAGE_MAX_LENGTH      124
-#define ANNOUNCE_MAX_LENGTH     124
 
-#define MAX_LOGIN_ATTEMPTS      3
+hook OnGameModeExit()
+{
+	for (new i = 0; i < sizeof(paramedicPickup); ++i)
+	{
+		DestroyPickup(paramedicPickup[i]);
+	}
 
-// Pickups
+	return 1;
+}
 
-#define ENTER_EXIT_PICKUP       (19130)
-#define JOB_PICKUP              (1274)
-#define EQUIPMENT_PICKUP        (1275)
+
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+	if (PRESSED(KEY_SECONDARY_ATTACK))
+	{
+		// Paramedic
+
+	    if (IsPlayerInRangeOfPoint(playerid, 3.0, 1172.7817,-1323.2935,15.4007))
+	    {
+	        SetPlayerPos(playerid, -62.8670,153.6974,999.0569);
+	    }
+
+	    else if (IsPlayerInRangeOfPoint(playerid, 3.0, -62.8670,153.6974,999.0569))
+	    {
+	    	SetPlayerPos(playerid, 1172.7817,-1323.2935,15.4007);
+	    }
+	}
+
+	return 1;
+}
