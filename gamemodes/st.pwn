@@ -103,6 +103,7 @@
 
 // UI
 #include <help-message>
+#include <user-bar>
 
 // Vehicles
 #include <adjustment>
