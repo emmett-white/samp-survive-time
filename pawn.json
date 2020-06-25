@@ -1,16 +1,17 @@
 {
 	"user": "emmett-white",
 	"repo": "samp-survive-time",
+	"tag": "0.1.2",
 	"entry": "gamemodes\\st.pwn",
 	"output": "gamemodes\\st.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
+		"Southclaws/samp-logger",
 		"pawn-lang/YSI-Includes",
 		"samp-incognito/samp-streamer-plugin",
 		"zeex/samp-plugin-crashdetect",
 		"maddinat0r/sscanf",
 		"IllidanS4/PawnPlus",
-		"IllidanS4/YSF",
 		"AGraber/pawn-plus-mysql",
 		"emmet-jones/New-SA-MP-callbacks",
 		"Zeex/samp-plugin-profiler",
@@ -20,21 +21,53 @@
 		"emmett-white/shooting-textdraw",
 		"emmett-white/samp-another-chat",
 		"urShadow/Pawn.Regex",
+		"dakysyke/pawn-env",
+		"emmett-white/samp-survive-time",
 		"Southclaws/formatex",
-		"Southclaws/samp-logger"
+		"Southclaws/progress2"
+	],
+	"builds": [
+		{
+			"name": "dev",
+			"version": "3.10.10",
+			"args": [
+				"-;+",
+				"-(+",
+				"-d3",
+				"-E",
+				"-Z"
+			],
+			"includes": [
+				"gamemodes/sss/core",
+				"gamemodes/sss/utils",
+				"gamemodes/sss/core/account",
+				"gamemodes/sss/core/server",
+				"gamemodes/sss/database",
+				"gamemodes/sss/core/player",
+				"gamemodes/sss/core/player/systems/hunger/",
+				"gamemodes/sss/core/admin",
+				"gamemodes/sss/core/user-interface",
+				"gamemodes/sss/core/vehicle",
+				"gamemodes/sss/core/player/jobs",
+				"gamemodes/sss/core/player/jobs/ambulance",
+				"gamemodes/sss/core/world",
+				"gamemodes/sss/core/player/systems/dealers/",
+				"gamemodes/sss/core/player/systems/drugs/"
+			]
+		}
 	],
 	"runtime": {
 		"version": "0.3.7",
 		"mode": "y_testing",
 		"echo": "Loading configuration...",
-		"rcon_password": "password",
-		"port": 8192,
-		"hostname": "SA-MP Server",
-		"maxplayers": 50,
+		"rcon_password": "44",
+		"port": 8080,
+		"hostname": "Survive Time",
+		"maxplayers": 32,
 		"language": "",
 		"mapname": "San Andreas",
 		"weburl": "www.sa-mp.com",
-		"gamemodetext": "Unknown",
+		"gamemodetext": "Survive Time | v0.1",
 		"announce": true,
 		"lanmode": false,
 		"query": true,
