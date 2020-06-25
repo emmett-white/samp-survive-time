@@ -1,3 +1,3 @@
 * text=auto
-*.pwn eol=lf
+*.pwn text eol=lf
 *.inc linguist-language=SourcePawn
