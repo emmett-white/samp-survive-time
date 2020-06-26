@@ -33,15 +33,14 @@
 
 CMD:takejob(playerid, const params[])
 {
-    if (takenJob[playerid])
+    if (char_Job[playerid])
         return ErrorMsg(playerid, "You already have a job.");
 
 
     // Hospital
     if (IsPlayerInRangeOfPoint(playerid, 3.0, -28.2635, 152.7430, 999.0621))
     {
-        takenJob[playerid] = true;
-        paramedicJob[playerid] = true;
+        char_Job[playerid] = PARAMEDIC_JOB;
 
         ChatMsg(playerid, X11_SERVER, "You are now working as an paramedic.");
         ChatMsg(playerid, X11_SERVER, "Now you can use your equipment (/equipment).");
@@ -53,7 +52,7 @@ CMD:takejob(playerid, const params[])
 
 CMD:equipment(playerid, const params[])
 {
-    if (!takenJob[playerid])
+    if (!char_Job[playerid])
         return ErrorMsg(playerid, "You don't have any job!");
 
 
@@ -73,13 +72,15 @@ CMD:equipment(playerid, const params[])
 
 CMD:jobhelp(playerid, const params[])
 {
-    if (!takenJob[playerid])
+    if (!char_Job[playerid])
         return ErrorMsg(playerid, "You don't have any job!");
 
-    if (paramedicJob[playerid])
+    switch (char_Job[playerid])
     {
-        ChatMsg(playerid, X11_SERVER, "/equipment, /job");
-        return 1;
+        case PARAMEDIC_JOB:
+        {
+            ChatMsg(playerid, X11_SERVER, "/equipment, /job");
+        }
     }
 
     return 1;

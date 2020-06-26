@@ -116,6 +116,8 @@
 
 // World
 #include <maps>
+#include <map-icons>
+
 
 main()
 {
@@ -145,6 +147,16 @@ CMD:xyz(playerid, const params[])
     SetPlayerPos(playerid, x, y, z);
 
     return 1;
+}
+
+CMD:health(playerid, const params[])
+{
+    return SetPlayerHealth(playerid, 30.0);
+}
+
+CMD:goodhealth(playerid, const params[])
+{
+    return SetPlayerHealth(playerid, 60.0);
 }
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)

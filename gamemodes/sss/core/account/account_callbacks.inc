@@ -75,6 +75,7 @@ public OnPlayerAccountCheck(const playerid)
             cache_get_value_name_int(0, ""char_field_money"", char_Money[playerid]);
             cache_get_value_name_int(0, ""char_field_admin"", char_Admin[playerid]);
             cache_get_value_name_int(0, ""char_field_drugs"", char_Drugs[playerid]);
+            cache_get_value_name_int(0, ""char_field_job"", char_Job[playerid]);
         
             Auth_PromptLogin(playerid);
         }
@@ -182,13 +183,14 @@ public OnAccountSaved(const playerid)
         SET \
             "char_field_gender" = '%d', "char_field_skin" = '%d', \
             "char_field_score" = '%d', "char_field_money" = '%d', \
-            "char_field_admin" = '%d', "char_field_drugs" = '%d' \
+            "char_field_admin" = '%d', "char_field_drugs" = '%d', \
+            "char_field_job" = '%d' \
         WHERE \
             "char_field_id" = '%d'",
         char_Gender[playerid], char_Skin[playerid],
         char_Score[playerid], char_Money[playerid],
         char_Admin[playerid], char_Drugs[playerid],
-        char_UniqueID[playerid]
+        char_Job[playerid], char_UniqueID[playerid]
     );
     mysql_tquery_s(MySQL_GetHandle(), Query);
 

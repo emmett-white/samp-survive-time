@@ -11,7 +11,6 @@
 
     Emmett & Crownshot's Survive Time Gamemode
     Git: github.com/emmett-white/samp-survive-time
-    Discord: https://discord.gg/yGRhys2
 
     Credits:
         Y-Less - YSI-Includes...
@@ -32,41 +31,52 @@
 
 ================================================================================================*/
 
-// Variables
-
-new
-    player_UniqueID[MAX_PLAYERS],
-    player_Password[MAX_PLAYERS][64],
-    player_LoginAttempts[MAX_PLAYERS],
-
-    char_UniqueID[MAX_PLAYERS],
-    char_Country[MAX_PLAYERS][24],
-    char_Gender[MAX_PLAYERS],
-    char_Skin[MAX_PLAYERS],
-    char_Score[MAX_PLAYERS],
-    char_Money[MAX_PLAYERS],
-    char_Admin[MAX_PLAYERS],
-    char_Drugs[MAX_PLAYERS],
-    char_Job[MAX_PLAYERS],
-
-    bar_delay;
-
-
-// Spawn Positions
-
-new Float: randomSpawnPositions[][] =
+CMD:heal(playerid, const params[])
 {
-    { 241.1621,-30.0135,1.5781,88.3188 },
-    { 247.1662,-93.5233,2.2537,88.6577 },
-    { 218.2654,-86.3072,1.5705,317.5236 },
-    { -80.9023,-15.2646,3.1172,36.2880 },
-    { 673.0425,-522.1229,16.3281,269.7150 },
-    { 671.5831,-476.9319,16.3359,197.3150 },
-    { 786.0263,-826.0399,70.2896,357.8026 },
-    { 900.9971,-927.9954,42.6016,179.1949 },
-    { 589.1715,-1238.8641,17.8381,307.1783 },
-    { 1187.1113,-1323.9055,13.5591,272.8422 },
-    { 1363.3134,-1279.3271,13.5469,85.5345 },
-    { 1334.2605,-1059.6702,28.1037,262.1210 },
-    { 1458.3473,-1025.9438,23.8281,178.0579 }
-};
+    if (char_Job[playerid] != PARAMEDIC_JOB)
+        return ErrorMsg(playerid, "You're not a doctor!");
+
+
+    static
+        targetID,
+
+        Float: x,
+        Float: y,
+        Float: z;
+
+    if (sscanf(params, "r", targetID))
+        return HelpMsg(playerid, "/heal [playerid]");
+
+
+    if (takeCure[targetID])
+        return ErrorMsg(playerid, "That player is cured.");
+
+
+    GetPlayerPos(targetID, x, y, z);
+    
+    if (!IsPlayerInRangeOfPoint(playerid, 2.0, x, y, z))
+        return ErrorMsg(playerid, "You have to be close to a player!");
+
+
+    static
+        Float: hp;
+
+    GetPlayerHealth(targetID, hp);
+
+    if (hp >= 40.0)
+        return ErrorMsg(playerid, "That player is in good health.");
+
+
+    bar_delay = 1000;
+    UI_ShowPlayerBar(playerid);
+
+    va_GameTextForPlayer(playerid, "~w~Healing player ~y~%s~w~...", 10000, 3, PlayerName(targetID));
+    va_GameTextForPlayer(targetID, "~y~%s ~w~healing you...", 10000, 3, PlayerName(playerid));
+
+    defer CuredPlayer(targetID, playerid);
+
+    ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.0, 0, 0, 0, 0, 0);
+    ApplyAnimation(targetID, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
+
+    return 1;
+}

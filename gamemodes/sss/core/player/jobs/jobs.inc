@@ -31,10 +31,14 @@
 
 ================================================================================================*/
 
+// Job IDs
+#define PARAMEDIC_JOB               (1)
+
 // Ambulance
 #include <paramedic_vars>
 #include <paramedic_hooks>
 #include <paramedic_commands>
+#include <paramedic_timers>
 
 #include <job_vars>
 #include <job_commands>
