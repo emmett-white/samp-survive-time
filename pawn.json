@@ -49,10 +49,11 @@
 				"gamemodes/sss/core/user-interface",
 				"gamemodes/sss/core/vehicle",
 				"gamemodes/sss/core/player/jobs",
-				"gamemodes/sss/core/player/jobs/ambulance",
+				"gamemodes/sss/core/player/jobs/paramedic",
 				"gamemodes/sss/core/world",
 				"gamemodes/sss/core/player/systems/dealers/",
-				"gamemodes/sss/core/player/systems/drugs/"
+				"gamemodes/sss/core/player/systems/drugs/",
+				"gamemodes/sss/core/player/systems/death/"
 			]
 		}
 	],
