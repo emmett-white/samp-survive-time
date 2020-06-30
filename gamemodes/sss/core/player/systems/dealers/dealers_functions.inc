@@ -72,6 +72,46 @@ stock Dealer_Create(const playerid, Float: x, Float: y, Float: z, Float: a)
     return 1;
 }
 
+stock Dealer_Delete(const playerid, dID)
+{
+    task_await
+    (
+        MySQL_QueryS
+        (
+            str_format
+            (
+                "SELECT * FROM \
+                    "TABLE_DEALERS" \
+                WHERE \
+                    "dealer_field_id" = '%d'",
+                dID
+            )
+        )
+    );
+
+
+    if (!cache_num_rows())
+        return ErrorMsg(playerid, "The dealer you are trying to delete was not found in database.");
+
+
+    new String: Query = str_format
+    (
+        "DELETE FROM \
+            "TABLE_DEALERS" \
+        WHERE \
+            "dealer_field_id" = '%d'",
+        dID
+    );
+    mysql_tquery_s(MySQL_GetHandle(), Query);
+
+    DestroyDynamic3DTextLabel(dealer_Label[dID]);
+    DestroyActor(dealer_Actor[dID]);
+
+    Iter_Remove(Iter_Dealers, dID);
+
+    return 1;
+}
+
 
 stock Dealer_Nearby(const playerid)
 {

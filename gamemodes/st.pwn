@@ -97,6 +97,7 @@
 #include <chat>
 #include <hunger>
 #include <drugs>
+#include <death>
 
 // Admin
 #include <admin_core>
