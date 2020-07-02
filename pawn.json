@@ -40,7 +40,8 @@
 			"includes": [
 				"gamemodes/sss/core",
 				"gamemodes/sss/utils",
-				"gamemodes/sss/core/account",
+			        "gamemodes/sss/core/account",
+                                "gamemodes/sss/core/animation",
 				"gamemodes/sss/core/server",
 				"gamemodes/sss/database",
 				"gamemodes/sss/core/player",
