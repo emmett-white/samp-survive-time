@@ -32,7 +32,7 @@ stock CreateDeathTextDraws()
     TextDrawLetterSize(__deathTextDraws[2], 0.000000, -0.120056);
     TextDrawTextSize(__deathTextDraws[2], 643.000000, 0.000000);
     TextDrawAlignment(__deathTextDraws[2], 1);
-    TextDrawColor(__deathTextDraws[2], -1);
+    TextDrawColor(__deathTextDraws[2], -1); 
     TextDrawUseBox(__deathTextDraws[2], 1);
     TextDrawBoxColor(__deathTextDraws[2], 255);
     TextDrawSetShadow(__deathTextDraws[2], 0);
