@@ -36,6 +36,12 @@
 
 
 // Hooks
+hook OnGameModeInit()
+{
+    CreateDeathTextDraws();
+    return 1;
+}
+
 hook OnPlayerDeath(playerid)
 {
     static
@@ -45,17 +51,55 @@ hook OnPlayerDeath(playerid)
         Float: a;
 
 
+    if(__deathCommand[playerid] || deathTimerStatus[playerid] != 0)
+    {
+        new rand = random(sizeof randomSpawnPositions);
+        SetSpawnInfo
+        (
+            playerid, 0, char_Skin[playerid],
+            randomSpawnPositions[rand][0], randomSpawnPositions[rand][1], randomSpawnPositions[rand][2], randomSpawnPositions[rand][3],
+            0, 0, 0, 0, 0, 0
+        );
+
+        TogglePlayerControllable(playerid, 0);
+        defer SpawnTimer(playerid);
+        __deathCommand[playerid] = false;
+        HandleDeathTextDrawsForPlayer(playerid, false);
+        stop deathTimer[playerid];
+        deathTimerStatus[playerid] = 0;
+        __deathAnimation[playerid] = false;
+
+        return 0;
+    }
+
     GetPlayerPos(playerid, x, y, z);
     GetPlayerFacingAngle(playerid, a);
 
-    SetPlayerPos(playerid, x, y, z);
-    SetPlayerFacingAngle(playerid, a);
+    SetSpawnInfo
+    (
+        playerid, NO_TEAM, char_Skin[playerid], 
+        x, y, z, a, 0, 0, 0, 0, 0, 0
+    );
 
-    // Injured animation
-    ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.0, 1, 0, 0, 0, 0);
+
+    // Injured animation value setting
     SendClientMessage(playerid, X11_SERVER, "Type /accceptdeath to die or type /ems to call paramedics.");
-
+    PreloadAnimLib(playerid, "SWEET");
     __deathAnimation[playerid] = true;
 
+    
+    return 1;
+}
+
+hook OnPlayerSpawn(playerid)
+{
+    if(__deathAnimation[playerid]) 
+    {
+        ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.1, 1, 0, 0, 0, 0);
+        HandleDeathTextDrawsForPlayer(playerid, true);
+        deathTimer[playerid] = repeat WastedTimer(playerid);
+        deathTimerStatus[playerid] = 1;
+    }
+    
     return 1;
 }

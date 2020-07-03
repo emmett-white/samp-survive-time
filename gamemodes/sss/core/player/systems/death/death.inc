@@ -33,4 +33,7 @@
 ================================================================================================*/
 
 #include <death_vars>
+#include <death_timer>
+#include <death_functions>
 #include <death_animation>
+#include <death_commands>

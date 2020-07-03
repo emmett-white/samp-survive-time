@@ -34,12 +34,13 @@
 
 CMD:acceptdeath(playerid, const params[])
 {
-    if (!deathAnimation[playerid])
+    if (!__deathAnimation[playerid])
         return ErrorMsg(playerid, "You're not in a dying animation.");
 
 
     SetPlayerHealth(playerid, 0.0);
-    __death_Animation[playerid] = false;
+    __deathAnimation[playerid] = false, __deathCommand[playerid] = true;
+    
 
     return 1;
 }
