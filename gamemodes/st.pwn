@@ -63,7 +63,7 @@
 #include <PawnPlus>                                 // https://github.com/IllidanS4/PawnPlus
 #include <pp-mysql>                                 // https://github.com/AGraber/pawn-plus-mysql
 
-#include <Pawn.RegEx>
+// #include <Pawn.RegEx>
 
 #include <logger>                                   // https://github.com/Southclaws/samp-logger
 #include <formatex>                                 // https://github.com/Southclaws/formatex
@@ -95,6 +95,7 @@
 // Player
 #include <accounts>
 #include <chat>
+#include <animations>
 #include <hunger>
 #include <drugs>
 #include <death>
