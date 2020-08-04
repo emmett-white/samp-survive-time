@@ -124,6 +124,9 @@
 main()
 {
     log("Gamemode successfully initialised.");
+    
+    log("Asserting MAX_PLAYERS definition and server's max players slot...");
+    assert(GetMaxPlayers() == MAX_PLAYERS);
 }
 
 
