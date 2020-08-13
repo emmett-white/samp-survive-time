@@ -34,8 +34,7 @@
 
 stock SetPlayerDrugsLevel(const playerid)
 {
-    static
-        drugsLevel;
+    static drugsLevel;
 
 
     if (char_Drugs[playerid] <= 20)

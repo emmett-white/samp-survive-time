@@ -37,7 +37,7 @@
 new
     player_UniqueID[MAX_PLAYERS],
     player_Password[MAX_PLAYERS][64],
-    player_LoginAttempts[MAX_PLAYERS],
+    player_LoginAttempts[MAX_PLAYERS] = 0,
 
     char_UniqueID[MAX_PLAYERS],
     char_Country[MAX_PLAYERS][24],
@@ -49,7 +49,8 @@ new
     char_Drugs[MAX_PLAYERS],
     char_Job[MAX_PLAYERS],
 
-    bar_delay;
+    bar_delay
+;
 
 
 // Spawn Positions

@@ -97,11 +97,14 @@ stock HandleDeathTextDrawsForPlayer(playerid, bool:showorhide)
         TextDrawHideForPlayer(playerid, __deathTextDraws[0]), TextDrawHideForPlayer(playerid, __deathTextDraws[1]), TextDrawHideForPlayer(playerid, __deathTextDraws[2]);
         TextDrawHideForPlayer(playerid, __deathTextDraws[3]), TextDrawHideForPlayer(playerid, __deathTextDraws[4]), TextDrawHideForPlayer(playerid, __deathTextDraws[5]);
         TextDrawHideForPlayer(playerid, __deathTextDraws[6]);
+    
+        return 1;
     }
-    else
-    {
-        TextDrawShowForPlayer(playerid, __deathTextDraws[0]), TextDrawShowForPlayer(playerid, __deathTextDraws[1]), TextDrawShowForPlayer(playerid, __deathTextDraws[2]);
-        TextDrawShowForPlayer(playerid, __deathTextDraws[3]), TextDrawShowForPlayer(playerid, __deathTextDraws[4]), TextDrawShowForPlayer(playerid, __deathTextDraws[5]);
-        TextDrawShowForPlayer(playerid, __deathTextDraws[6]);
-    }
+     
+
+    TextDrawShowForPlayer(playerid, __deathTextDraws[0]), TextDrawShowForPlayer(playerid, __deathTextDraws[1]), TextDrawShowForPlayer(playerid, __deathTextDraws[2]);
+    TextDrawShowForPlayer(playerid, __deathTextDraws[3]), TextDrawShowForPlayer(playerid, __deathTextDraws[4]), TextDrawShowForPlayer(playerid, __deathTextDraws[5]);
+    TextDrawShowForPlayer(playerid, __deathTextDraws[6]);
+    
+    return 1;
 }

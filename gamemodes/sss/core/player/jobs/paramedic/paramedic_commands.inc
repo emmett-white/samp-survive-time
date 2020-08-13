@@ -34,7 +34,9 @@
 CMD:heal(playerid, const params[])
 {
     if (char_Job[playerid] != PARAMEDIC_JOB)
+    {
         return ErrorMsg(playerid, "You're not a doctor!");
+    }
 
 
     static
@@ -42,29 +44,38 @@ CMD:heal(playerid, const params[])
 
         Float: x,
         Float: y,
-        Float: z;
+        Float: z
+    ;
+
 
     if (sscanf(params, "r", targetID))
+    {
         return HelpMsg(playerid, "/heal [playerid]");
+    }
 
 
     if (takeCure[targetID])
+    {
         return ErrorMsg(playerid, "That player is cured.");
+    }
 
 
     GetPlayerPos(targetID, x, y, z);
     
     if (!IsPlayerInRangeOfPoint(playerid, 2.0, x, y, z))
+    {
         return ErrorMsg(playerid, "You have to be close to a player!");
+    }
 
 
-    static
-        Float: hp;
+    static Float: hp;
 
     GetPlayerHealth(targetID, hp);
 
     if (hp >= 40.0)
+    {
         return ErrorMsg(playerid, "That player is in good health.");
+    }
 
 
     bar_delay = 1000;

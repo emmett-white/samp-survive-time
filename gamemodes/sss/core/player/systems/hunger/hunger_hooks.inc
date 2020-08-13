@@ -46,13 +46,14 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerUpdate(playerid)
 {
-	new
+	static
 		animIndex = GetPlayerAnimationIndex(playerid),
 		Float: food = GetPlayerProgressBarValue(playerid, HungerBar[playerid]),
 	
 		k,
 		ud,
-		lr;
+		lr
+	;
 
 	GetPlayerKeys(playerid, k, ud, lr);
 
@@ -116,7 +117,9 @@ hook OnPlayerUpdate(playerid)
 	}
 
 	if(food > 100.0)
+	{
 		food = 100.0;
+	}
 
 	return 1;
 }

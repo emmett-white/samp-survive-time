@@ -47,6 +47,7 @@ public OnPlayerAccountCheck(const playerid)
         )
     );
 
+
     if (cache_num_rows())
     {
         // Loading account
@@ -66,6 +67,7 @@ public OnPlayerAccountCheck(const playerid)
             )
         );
 
+
         if (cache_num_rows())
         {
             cache_get_value_name_int(0, ""char_field_id"", char_UniqueID[playerid]);
@@ -83,14 +85,14 @@ public OnPlayerAccountCheck(const playerid)
         return 1;
     }
 
-    Auth_DoRegister(playerid, 1);
-
     ClearChat(playerid, 40);
 
+    Auth_DoRegister(playerid, 1);
     UI_CreateHelpMessage(playerid, true);
 
     return 1;
 }
+
 
 forward OnAccountRegistered(const playerid);
 public OnAccountRegistered(const playerid)
@@ -159,7 +161,9 @@ public OnPasswordVerify(const playerid, bool: success)
         ++player_LoginAttempts[playerid];
 
         if (player_LoginAttempts[playerid] == MAX_LOGIN_ATTEMPTS)
+        {
             return Kick(playerid);
+        }
 
         Auth_PromptLogin(playerid);
         return 1;

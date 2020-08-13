@@ -42,13 +42,15 @@ hook OnGameModeInit()
     return 1;
 }
 
+
 hook OnPlayerDeath(playerid)
 {
-    static
+    new
         Float: x,
         Float: y,
         Float: z,
-        Float: a;
+        Float: a
+    ;
 
 
     if(__deathCommand[playerid] || deathTimerStatus[playerid] != 0)
@@ -63,10 +65,12 @@ hook OnPlayerDeath(playerid)
 
         TogglePlayerControllable(playerid, 0);
         defer SpawnTimer(playerid);
-        __deathCommand[playerid] = false;
+
         HandleDeathTextDrawsForPlayer(playerid, false);
         stop deathTimer[playerid];
+
         deathTimerStatus[playerid] = 0;
+        __deathCommand[playerid] = false;
         __deathAnimation[playerid] = false;
 
         return 0;
@@ -85,11 +89,13 @@ hook OnPlayerDeath(playerid)
     // Injured animation value setting
     SendClientMessage(playerid, X11_SERVER, "Type /accceptdeath to die or type /ems to call paramedics.");
     PreloadAnimLib(playerid, "SWEET");
+
     __deathAnimation[playerid] = true;
 
     
     return 1;
 }
+
 
 hook OnPlayerSpawn(playerid)
 {
@@ -97,6 +103,7 @@ hook OnPlayerSpawn(playerid)
     {
         ApplyAnimation(playerid, "SWEET", "Sweet_injuredloop", 4.1, 1, 0, 0, 0, 0);
         HandleDeathTextDrawsForPlayer(playerid, true);
+
         deathTimer[playerid] = repeat WastedTimer(playerid);
         deathTimerStatus[playerid] = 1;
     }

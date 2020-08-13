@@ -33,12 +33,14 @@
 
 #include <YSI_Coding\y_hooks>
 
+
 // Server informations
 
 #define SERVER_GAMEMODE	 		"Survive Time | v1.0"
 #define SERVER_MAPNAME	 		"San Andreas"
 #define SERVER_LANGUAGE	 		"English"
 #define SERVER_WEBURL	 		"www.survive-time.com"
+
 
 // Hooks
 
@@ -65,6 +67,7 @@ hook OnGameModeInit()
 
 	return 1;
 }
+
 
 hook OnGameModeExit()
 {

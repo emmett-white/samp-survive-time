@@ -38,8 +38,7 @@ public OnDealersLoaded()
     {
         for (new i; i < cache_num_rows(); ++i)
         {
-            new
-                id = Iter_Free(Iter_Dealers);
+            new id = Iter_Alloc(Iter_Dealers);
 
             cache_get_value_name_int(i, "dealer_id", dealer_UniqueID[id]);
 
@@ -64,7 +63,6 @@ public OnDealersLoaded()
             );
 
             ++loadedDealers;
-            Iter_Add(Iter_Dealers, id);
         }
 
         log("Dealers > loaded ", _i("dealers: ", loadedDealers));
@@ -73,12 +71,12 @@ public OnDealersLoaded()
     return 1;
 }
 
+
 forward Dealer_InsertIntoDB(const playerid, dID);
 public Dealer_InsertIntoDB(const playerid, dID)
 {
     dealer_UniqueID[dID] = cache_insert_id();
-
-    ChatMsgF(playerid, X11_SERVER, "You've successfully create dealer ID %i.", dealer_UniqueID[dID]);
+    ChatMsgF(playerid, X11_SERVER, "You've successfully create dealer ID %d.", dealer_UniqueID[dID]);
 
     return 1;
 }

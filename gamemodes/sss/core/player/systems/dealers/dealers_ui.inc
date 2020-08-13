@@ -221,13 +221,17 @@ stock UI_CreateDealerOffers(const playerid, bool: status)
         PlayerTextDrawSetShadow(playerid, dealer_TextDraws[playerid][14], 0);
         PlayerTextDrawSetSelectable(playerid, dealer_TextDraws[playerid][14], true);
 
-        for (new i = 0; i < 15; ++i)
+        for (new i = 0; i < sizeof dealer_TextDraws; ++i)
+        {
             PlayerTextDrawShow(playerid, dealer_TextDraws[playerid][i]);
+        }
 
         SelectTextDraw(playerid, 0xFFFFFFAA);
     } else {
-        for (new i = 0; i < 15; ++i)
+        for (new i = 0; i < sizeof dealer_TextDraws; ++i)
+        {
             PlayerTextDrawDestroy(playerid, dealer_TextDraws[playerid][i]);
+        }
 
         CancelSelectTextDraw(playerid);
     }

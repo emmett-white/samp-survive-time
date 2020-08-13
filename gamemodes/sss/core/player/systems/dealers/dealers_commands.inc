@@ -37,7 +37,8 @@ ACMD:[4]createdealer(playerid, const params[])
         Float: x,
         Float: y,
         Float: z,
-        Float: a;
+        Float: a
+    ;
 
     GetPlayerPos(playerid, x, y, z);
     GetPlayerFacingAngle(playerid, a);
@@ -51,15 +52,18 @@ ACMD:[4]createdealer(playerid, const params[])
 ACMD:[4]deletedealer(playerid, const params[])
 {
     if (isnull(params))
+    {
         return HelpMsg(playerid, "/deletedealer [dealer id]");
+    }
 
 
     if (!isnumeric(params))
+    {
         return ErrorMsg(playerid, "Invalid input!");
+    }
 
 
-    new
-        dID = strval(params);
+    static dID = strval(params);
 
 
     task_await
@@ -95,15 +99,18 @@ ACMD:[4]deletedealer(playerid, const params[])
 ACMD:[1]gotodealer(playerid, const params[])
 {
     if (isnull(params))
+    {
         return HelpMsg(playerid, "/gotodealer [dealer id]");
+    }
 
 
     if (!isnumeric(params))
+    {
         return ErrorMsg(playerid, "Invalid input!");
+    }
 
 
-    new
-        dID = strval(params);
+    static dID = strval(params);
 
 
     task_await
@@ -116,6 +123,7 @@ ACMD:[1]gotodealer(playerid, const params[])
             )
         )
     );
+
 
     if (!cache_num_rows())
     {
@@ -133,7 +141,10 @@ ACMD:[1]gotodealer(playerid, const params[])
 CMD:dealer(playerid, const params[])
 {
     if (!Dealer_Nearby(playerid))
+    {
         return ErrorMsg(playerid, "You need to be close to the dealer!");
+    }
+    
 
     UI_CreateDealerOffers(playerid, true);
 

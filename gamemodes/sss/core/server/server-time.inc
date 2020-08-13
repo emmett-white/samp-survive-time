@@ -40,17 +40,14 @@
 
 // Variables
 
-static
-    hour;
+static hour;
 
 
 // Hook
 
 hook OnGameModeInit()
 {
-    static
-        real_hour;
-
+    static real_hour;
     gettime(real_hour);
 
     hour = real_hour;
@@ -71,6 +68,5 @@ task OnWorldTimeChange[1800000]()
     }
 
     SetWorldTime(hour);
-
     ChatMsgAllF(-1, "%d", hour);
 }

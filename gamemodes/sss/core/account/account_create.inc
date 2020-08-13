@@ -43,14 +43,17 @@ stock Auth_DoRegister(const playerid, const type)
                 #pragma unused id, dialogid, listitem
 
                 if (!response)
+                {
                     return Kick(playerid);
+                }
+
 
                 if (!(6 < strlen(inputtext) < 24))
+                {
                     return ErrorMsg(playerid, "Password is too short or too long!"), Auth_DoRegister(playerid, 1);
+                }
 
                 bcrypt_hash(playerid, "OnPasswordHashed", inputtext, 12);
-
-                printf("%s", inputtext);
             }
 
             Dialog_ShowCallbackF
@@ -70,10 +73,16 @@ stock Auth_DoRegister(const playerid, const type)
                 #pragma unused id, dialogid, listitem
 
                 if (!response)
+                {
                     return Kick(playerid);
+                }
+
 
                 if (!IsValidEmailAddress(inputtext))
+                {
                     return ErrorMsg(playerid, "Please enter your valid e-mail address.."), Auth_DoRegister(playerid, 2);
+                }
+
 
                 new String: Query = str_format
                 (
@@ -106,10 +115,16 @@ stock Auth_DoRegister(const playerid, const type)
                 #pragma unused id, dialogid, listitem
 
                 if (!response)
+                {
                     return Kick(playerid);
+                }
+
 
                 if (isnumeric(inputtext) || isnull(inputtext))
+                {
                     return Auth_DoRegister(playerid, 2);
+                }
+
 
                 strcpy(char_Country[playerid], inputtext);
 
@@ -169,10 +184,9 @@ stock Auth_DoRegister(const playerid, const type)
 
         case 5:
         {
-            ClearChat(playerid, 40);
-
             ChatMsgF(playerid, X11_SERVER, "%s, "WHITE"you've successfully registered on \""SERVER"Survive Time\""WHITE".", PlayerName(playerid));
 
+            ClearChat(playerid, 40);
             OnCharacterSpawned(playerid);
         }
     }

@@ -38,8 +38,11 @@ stock Auth_PromptLogin(const playerid)
     {
         #pragma unused id, dialogid, listitem
 
+
         if (!response)
+        {
             return Kick(playerid);
+        }
 
 
         bcrypt_verify(playerid, "OnPasswordVerify", inputtext, player_Password[playerid]);

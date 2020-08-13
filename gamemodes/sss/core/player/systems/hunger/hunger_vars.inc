@@ -34,4 +34,5 @@
 
 new
     Float: HungerValue[MAX_PLAYERS],
-    PlayerBar: HungerBar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...};
+    PlayerBar: HungerBar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...
+;

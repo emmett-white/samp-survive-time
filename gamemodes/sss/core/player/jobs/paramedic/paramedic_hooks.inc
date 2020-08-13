@@ -56,7 +56,7 @@ hook OnGameModeInit()
 
 hook OnGameModeExit()
 {
-	for (new i = 0; i < sizeof(paramedicPickup); ++i)
+	for (new i = 0; i < sizeof paramedicPickup; ++i)
 	{
 		DestroyPickup(paramedicPickup[i]);
 	}
@@ -70,7 +70,6 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	if (PRESSED(KEY_SECONDARY_ATTACK))
 	{
 		// Paramedic
-
 	    if (IsPlayerInRangeOfPoint(playerid, 3.0, 1172.7817,-1323.2935,15.4007))
 	    {
 	        SetPlayerPos(playerid, -62.8670,153.6974,999.0569);

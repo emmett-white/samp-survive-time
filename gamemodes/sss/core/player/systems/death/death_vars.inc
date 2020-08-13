@@ -37,11 +37,10 @@ new
     bool: __deathCommand[MAX_PLAYERS], 
     
     Timer: deathTimer[MAX_PLAYERS],
-    deathTimerStatus[MAX_PLAYERS];
+    deathTimerStatus[MAX_PLAYERS],
     /*bool: __deathDoctor[MAX_PLAYERS],
     bool: __acceptCure[MAX_PLAYERS],
 
     __deathCP[MAX_PLAYERS];*/
-
-new 
-    Text: __deathTextDraws[7];
+    Text: __deathTextDraws[7
+;

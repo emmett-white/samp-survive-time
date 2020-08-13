@@ -36,8 +36,7 @@
 
 // Variables
 
-new
-    PlayerBar: UI_Bar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...};
+new PlayerBar: UI_Bar[MAX_PLAYERS] = {INVALID_PLAYER_BAR_ID,...};
 
 
 // Hooks
@@ -66,8 +65,7 @@ stock UI_ShowPlayerBar(const playerid)
 
 timer UI_UpdatePlayerBar[bar_delay](playerid)
 {
-    new
-        Float: value = GetPlayerProgressBarValue(playerid, UI_Bar[playerid]);
+    new Float: value = GetPlayerProgressBarValue(playerid, UI_Bar[playerid]);
 
 
     if (value == 100.0)

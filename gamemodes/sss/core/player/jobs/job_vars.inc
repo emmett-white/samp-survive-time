@@ -31,5 +31,4 @@
 
 ================================================================================================*/
 
-new
-    bool: takenEquipment[MAX_PLAYERS];
+new bool: takenEquipment[MAX_PLAYERS];

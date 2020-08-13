@@ -35,23 +35,34 @@ ACMD:[4 && !IsPlayerAdmin(playerid)]setadmin(playerid, const params[])
 {
     static
         targetID,
-        level;
+        level
+    ;
+
 
     if (sscanf(params, "ri", targetID, level))
+    {
         return HelpMsg(playerid, "/setadmin [playerid] [level]");
+    }
 
 
     SetPlayerAdminLevel(targetID, playerid, level);
+
     return 1;
 }
+
 
 stock SetPlayerAdminLevel(const targetid, const playerid, const level)
 {
     if (!(0 <= level <= 5))
+    {
         return ErrorMsg(playerid, "You can't go below 0 and above than 4!");
+    }
+
 
     if (level == char_Admin[targetid])
+    {
         return ErrorMsg(playerid, "That player is already that admin level!");
+    }
 
     char_Admin[targetid] = level;
 
@@ -78,7 +89,6 @@ stock SetPlayerAdminLevel(const targetid, const playerid, const level)
     }
 
     ChatMsgF(playerid, X11_INDIAN_RED, "Admin: "WHITE"You have successfully set up an administrator "INDIAN_RED"%d "WHITE"for the player "INDIAN_RED"%s"WHITE".", level, PlayerName(targetid));
-
     ChatMsgF(targetid, X11_INDIAN_RED, "Admin: "WHITE"Owner "INDIAN_RED"%s "WHITE"has assigned you a level "INDIAN_RED"%d "WHITE"administrator.", PlayerName(playerid), level);
 
     char_Skin[targetid] = 294;

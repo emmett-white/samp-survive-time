@@ -33,8 +33,7 @@
 
 stock Dealer_Create(const playerid, Float: x, Float: y, Float: z, Float: a)
 {
-    new
-        dID = Iter_Free(Iter_Dealers);
+    static dID = Iter_Alloc(Iter_Dealers);
 
     new String: ActorLabelString = str_format
     (
@@ -67,8 +66,6 @@ stock Dealer_Create(const playerid, Float: x, Float: y, Float: z, Float: a)
     );
     mysql_tquery_s(MySQL_GetHandle(), Query, "Dealer_InsertIntoDB", "di", playerid, dID);
 
-    Iter_Add(Iter_Dealers, dID);
-
     return 1;
 }
 
@@ -91,7 +88,9 @@ stock Dealer_Delete(const playerid, dID)
 
 
     if (!cache_num_rows())
+    {
         return ErrorMsg(playerid, "The dealer you are trying to delete was not found in database.");
+    }
 
 
     new String: Query = str_format
@@ -118,7 +117,9 @@ stock Dealer_Nearby(const playerid)
     for (new i = 0; i < MAX_DEALERS; ++i)
     {
         if (IsPlayerInRangeOfPoint(playerid, 2.0, dealer_PosX[i], dealer_PosY[i], dealer_PosZ[i]))
+        {
             return 1;
+        }
     }
 
     return 0;
@@ -136,11 +137,15 @@ stock Dealer_AcceptOffers(const playerid, const offer)
                 #pragma unused id, dialogid, listitem, inputtext
 
                 if (!response)
+                {
                     return 1;
+                }
 
 
                 if (char_Money[playerid] < 130)
+                {
                     return ErrorMsg(playerid, "You don't have enough money!");
+                }
 
                 GivePlayerWeapon(playerid, 22, 50);
                 GivePlayerMoney(playerid, -130);
@@ -166,11 +171,15 @@ stock Dealer_AcceptOffers(const playerid, const offer)
                 #pragma unused id, dialogid, listitem, inputtext
 
                 if (!response)
+                {
                     return 1;
+                }
 
 
                 if (char_Money[playerid] < 40)
+                {
                     return ErrorMsg(playerid, "You don't have enough money!");
+                }
 
                 GivePlayerWeapon(playerid, 4, 1);
                 GivePlayerMoney(playerid, -40);
@@ -196,11 +205,15 @@ stock Dealer_AcceptOffers(const playerid, const offer)
                 #pragma unused id, dialogid, listitem, inputtext
 
                 if (!response)
+                {
                     return 1;
+                }
 
 
                 if (char_Money[playerid] < 200)
+                {
                     return ErrorMsg(playerid, "You don't have enough money!");
+                }
 
                 GivePlayerWeapon(playerid, 30, 50);
                 GivePlayerMoney(playerid, -200);
@@ -226,11 +239,15 @@ stock Dealer_AcceptOffers(const playerid, const offer)
                 #pragma unused id, dialogid, listitem, inputtext
 
                 if (!response)
+                {
                     return 1;
+                }
 
 
                 if (char_Money[playerid] < 80)
+                {
                     return ErrorMsg(playerid, "You don't have enough money!");
+                }
 
                 char_Drugs[playerid] += 20;
                 GivePlayerMoney(playerid, -80);

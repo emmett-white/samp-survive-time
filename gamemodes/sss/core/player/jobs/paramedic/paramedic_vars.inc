@@ -35,4 +35,5 @@ new
     bool: paramedicEquipment[MAX_PLAYERS],
     bool: takeCure[MAX_PLAYERS],
 
-    paramedicPickup[4];
+    paramedicPickup[4]
+;

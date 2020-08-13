@@ -34,8 +34,6 @@
 
 hook OnPlayerConnect(playerid)
 {
-    player_LoginAttempts[playerid] = 0;
-
     va_SendClientMessageToAll(X11_SERVER, "[JOIN]: %s "WHITE"connected.", PlayerName(playerid));
 
     InterpolateCameraPos(playerid, 3.1435,-1955.6364,88.1194, 2106.8354,-1270.0221,100.7057, 1000 * 25, CAMERA_MOVE);
@@ -53,11 +51,13 @@ hook OnPlayerConnect(playerid)
         )
     );
 
+
     if (cache_num_rows())
     {
         static
             banned_AdminName[MAX_PLAYER_NAME],
-            banned_Reason[MESSAGE_MAX_LENGTH];
+            banned_Reason[MESSAGE_MAX_LENGTH]
+        ;
 
         cache_get_value_name(0, ""banned_field_admin"", banned_AdminName);
         cache_get_value_name(0, ""banned_field_reason"", banned_Reason);
@@ -82,7 +82,7 @@ hook OnPlayerConnect(playerid)
 hook OnPlayerDisconnect(playerid, reason)
 {
     OnAccountSaved(playerid);
-    
     va_SendClientMessageToAll(X11_ORANGE_1, "[LEFT]: %s "WHITE"disconnected.", PlayerName(playerid));
+    
     return 1;
 }

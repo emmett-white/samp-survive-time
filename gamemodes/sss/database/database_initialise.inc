@@ -33,7 +33,7 @@
 
 #include <YSI_Coding\y_hooks>
 
-static MySQL:database_Handle;
+static MySQL: database_Handle;
 
 // Hooks
 
@@ -43,39 +43,50 @@ hook OnGameModeInit()
     return 1;
 }
 
+
 hook OnGameModeExit()
 {
-    if (!mysql_close(database_Handle)) {
+    if (!mysql_close(database_Handle))
+    {
         err("Failed to terminate the database connection. Please check this.");
     }
 
     return 1;
 }
 
+
 // Functions
 
 static MySQL_CreateConnection()
 {
     new hostname[24];
-    if (Env_Has("MYSQL_HOST")) {
+    if (Env_Has("MYSQL_HOST"))
+    {
         Env_Get("MYSQL_HOST", hostname, sizeof hostname);
     }
 
+
     new username[24];
-    if (Env_Has("MYSQL_USER")) {
+    if (Env_Has("MYSQL_USER"))
+    {
         Env_Get("MYSQL_USER", username, sizeof username);
     }
  
+
     new password[24];
-    if (Env_Has("MYSQL_PASSWORD")) {
+    if (Env_Has("MYSQL_PASSWORD"))
+    {
         Env_Get("MYSQL_PASSWORD", password, sizeof password);
     }
 
+
     new database[24];
-    if (Env_Has("MYSQL_DATABASE")) {
+    if (Env_Has("MYSQL_DATABASE"))
+    {
         Env_Get("MYSQL_DATABASE", database, sizeof database);
     }
  
+
     new MySQLOpt: options = mysql_init_options();
     mysql_set_option(options, AUTO_RECONNECT, true);
     mysql_set_option(options, MULTI_STATEMENTS, true);
@@ -83,7 +94,9 @@ static MySQL_CreateConnection()
 
     database_Handle = mysql_connect(hostname, username, password, database, options);
 
-    if (mysql_errno(database_Handle) != 0) {
+
+    if (mysql_errno(database_Handle) != 0)
+    {
         err("[MySQL]: Can't connect to database!");
         
         SendRconCommand("exit");
@@ -95,21 +108,25 @@ static MySQL_CreateConnection()
     return 1;
 }
 
+
 // OnQueryError - REQUIRED
 public OnQueryError(errorid, const error[], const callback[], const query[], MySQL:handle)
 {
     return 1;
 }
 
+
 stock MySQL: MySQL_GetHandle()
 {
     return database_Handle;
 }
 
+
 stock Task: MySQL_Query(const query[])
 {
     return mysql_aquery(MySQL_GetHandle(), query, true);
 }
+
 
 stock Task: MySQL_QueryS(ConstStringTag:query)
 {

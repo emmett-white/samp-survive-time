@@ -37,14 +37,15 @@
 // Variables
 static
     bool: vehicle_lockedDoor[MAX_VEHICLES],
-    bool: vehicle_lightsStatus[MAX_VEHICLES];
+    bool: vehicle_lightsStatus[MAX_VEHICLES]
+;
 
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
     if (PRESSED(KEY_SUBMISSION) && IsPlayerInAnyVehicle(playerid))
     {
-        new
+        static
             vehicleid = GetPlayerVehicleID(playerid),
 
             engine,
@@ -53,7 +54,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             doors,
             bonnet,
             boot,
-            objective;
+            objective
+        ;
 
         vehicle_lockedDoor[vehicleid] = (vehicle_lockedDoor[vehicleid]) ? (false) : (true);
 
@@ -65,7 +67,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
     if (PRESSED(KEY_CROUCH) && IsPlayerInAnyVehicle(playerid))
     {
-        new
+        static
             vehicleid = GetPlayerVehicleID(playerid),
 
             engine,
@@ -74,7 +76,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
             doors,
             bonnet,
             boot,
-            objective;
+            objective
+        ;
 
         vehicle_lightsStatus[vehicleid] = (vehicle_lightsStatus[vehicleid]) ? (false) : (true);
 
@@ -97,11 +100,13 @@ hook OnPlayerExitVehicle(playerid, vehicleid)
         doors,
         bonnet,
         boot,
-        objective;
+        objective
+    ;
 
     GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
     SetVehicleParamsEx(vehicleid, engine, lights, alarm, 0, bonnet, boot, objective);
 
     SetVehicleNumberPlate(vehicleid, PlayerName(playerid));
+    
     return 1;
 }

@@ -47,7 +47,8 @@ new
     loadedDealers,
 
     // UI
-    PlayerText: dealer_TextDraws[MAX_PLAYERS][15];
+    PlayerText: dealer_TextDraws[MAX_PLAYERS][15]
+;
 
 
 enum dealerOffers
