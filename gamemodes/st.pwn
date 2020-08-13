@@ -155,17 +155,9 @@ CMD:xyz(playerid, const params[])
     return 1;
 }
 
-CMD:health(playerid, const params[])
-{
-    return SetPlayerHealth(playerid, 30.0);
-}
-
-CMD:goodhealth(playerid, const params[])
-{
-    return SetPlayerHealth(playerid, 60.0);
-}
 
 public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 {
-    return SetPlayerPos(playerid, fX, fY, fZ);
+    SetPlayerPos(playerid, fX, fY, fZ);
+    return 1;
 }
